@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d18">
+<meta name="description" content="CleanYourTV: guías gratuitas para optimizar Android TV y Google TV y comprobar la compatibilidad de tu televisor.">
+<title>CleanYourTV — Make your TV feel new</title>
+<style>
+:root{color-scheme:dark;--bg:#090d18;--panel:#111827;--line:#26344a;--text:#f4f7fb;--muted:#a8b5c8;--green:#7cf0bd;--blue:#85a9ff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 80% 0%,#17264a,transparent 34%),var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}
+a{color:inherit}
+button,input,select{font:inherit}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:#090d18ed;backdrop-filter:blur(14px);border-bottom:1px solid #ffffff18}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:850}
+.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--green),#66b5ff);color:#08121d;font-weight:950}
+.navlinks{display:flex;gap:20px}
+.navlinks a{text-decoration:none;color:var(--muted);font-size:.92rem}
+.lang{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:9px;border-radius:10px}
+.hero{padding:70px 0 45px;display:grid;grid-template-columns:1.2fr .8fr;gap:38px;align-items:center}
+.eyebrow{display:inline-block;border:1px solid #2c5b52;background:#102a29;color:var(--green);padding:6px 11px;border-radius:999px;font-size:.82rem;font-weight:700}
+h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1.04;letter-spacing:-2px;margin:20px 0}
+.gradient{background:linear-gradient(90deg,var(--green),#8fb8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.12rem;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;justify-content:center;align-items:center;border:1px solid transparent;border-radius:12px;padding:12px 17px;font-weight:800;text-decoration:none;cursor:pointer}
+.primary{background:var(--green);color:#071a16}
+.secondary{border-color:var(--line);background:var(--panel);color:var(--text)}
+.small{font-size:.85rem;color:var(--muted)}
+.tv-card{border:1px solid #2a3a54;background:linear-gradient(150deg,#18243a,#0d1422);border-radius:26px;padding:22px;box-shadow:0 28px 90px #0005}
+.screen{aspect-ratio:16/10;border:7px solid #303b4d;border-radius:14px;background:radial-gradient(circle at 65% 35%,#2c5370,transparent 35%),linear-gradient(140deg,#132d37,#101629);display:flex;flex-direction:column;justify-content:space-between;padding:18px}
+.screen-top{font-weight:800;font-size:.8rem;display:flex;justify-content:space-between}
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.app{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;font-size:1.5rem;background:#ffffff15;border:1px solid #ffffff1a}
+.screen-bottom{font-size:.76rem;color:#c4d0e2}
+.tv-foot{height:12px;width:36%;margin:auto;background:#3b4658;border-radius:0 0 8px 8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 55px}
+.stat,.card,.step{border:1px solid var(--line);background:#101827;border-radius:16px;padding:18px}
+.stat strong{display:block}.stat span{color:var(--muted);font-size:.88rem}
+section{padding:30px 0 55px}
+.section-head{max-width:720px;margin-bottom:25px}
+.section-head h2{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;margin:0 0 12px}
+.section-head p,.card p,.step p{color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#121c2c,#0e1522);padding:25px}
+.checker-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+label{display:block;font-weight:700;font-size:.92rem;margin-bottom:7px}
+input,select{width:100%;min-height:48px;border:1px solid #33435c;border-radius:11px;background:#0a1120;color:var(--text);padding:10px 12px;margin-bottom:16px}
+.hint{font-size:.84rem;color:var(--muted);margin-top:-8px}
+.notice{border-left:3px solid #ffd27a;padding:12px 14px;background:#30271955;color:#e8d7b5;border-radius:0 10px 10px 0;font-size:.9rem}
+.result{display:none;border:1px solid #315b51;background:#102722;border-radius:14px;padding:18px;margin-top:18px}
+.result.show{display:block}
+.result h3{margin:0 0 8px;color:var(--green)}
+.result p{color:#d6e6e1}
+.cards,.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{height:100%;padding:22px}
+.card-icon{width:45px;height:45px;border-radius:13px;background:#203a3a;display:grid;place-items:center;font-size:1.35rem}
+.card h3{margin:15px 0 9px}
+.card ul{padding-left:20px;color:#d0d9e6}
+.card li{margin:7px 0}
+.step:before{content:"✓";display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--green);color:#071a16;font-weight:900;margin-bottom:12px}
+.step h3{margin:0 0 7px}
+details{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:15px 17px;margin:10px 0}
+summary{font-weight:750;cursor:pointer}
+details p{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:30px 0 42px;color:var(--muted);font-size:.9rem}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:780px){
+.navlinks{display:none}
+.hero{grid-template-columns:1fr;padding-top:45px}
+.tv-card{max-width:500px;width:100%;margin:auto}
+.checker-grid,.cards,.steps{grid-template-columns:1fr}
+.stats{gap:8px}
+.stat{padding:12px}
+.stat span{font-size:.78rem}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a class="brand" href="#top"><span class="logo">C</span><span>CleanYourTV</span></a>
+<nav class="navlinks">
+<a href="#checker" data-es="Compatibilidad" data-en="Compatibility">Compatibilidad</a>
+<a href="#guides" data-es="Guías" data-en="Guides">Guías</a>
+<a href="#faq" data-es="Preguntas" data-en="FAQ">Preguntas</a>
+</nav>
+<select class="lang" id="language" aria-label="Idioma">
+<option value="es">Español</option>
+<option value="en">English</option>
+</select>
+</div>
+</header>
+
+<main id="top">
+<div class="wrap">
+<section class="hero">
+<div>
+<span class="eyebrow" data-es="✓ Gratis · Guías claras · Sin instalaciones" data-en="✓ Free · Clear guides · No installs">✓ Gratis · Guías claras · Sin instalaciones</span>
+<h1 data-es="Tu televisor.<br><span class='gradient'>Más limpio. Más rápido.</span>" data-en="Your TV.<br><span class='gradient'>Cleaner. Smoother.</span>">Tu televisor.<br><span class="gradient">Más limpio. Más rápido.</span></h1>
+<p class="lead" data-es="Aprende a organizar Android TV y Google TV, revisar aplicaciones y mejorar la experiencia con instrucciones sencillas y seguras." data-en="Learn to organize Android TV and Google TV, review apps, and improve your viewing experience with simple, safety-first guides.">Aprende a organizar Android TV y Google TV, revisar aplicaciones y mejorar la experiencia con instrucciones sencillas y seguras.</p>
+<div class="actions">
+<a class="btn primary" href="#checker" data-es="Comprobar mi televisor →" data-en="Check my TV →">Comprobar mi televisor →</a>
+<a class="btn secondary" href="#guides" data-es="Ver las guías" data-en="Explore guides">Ver las guías</a>
+</div>
+<p class="small" data-es="Proyecto independiente y educativo. No está afiliado a Google ni a fabricantes de televisores." data-en="Independent educational project. Not affiliated with Google or TV manufacturers.">Proyecto independiente y educativo. No está afiliado a Google ni a fabricantes de televisores.</p>
+</div>
+<div class="tv-card" aria-label="Ilustración de una pantalla de televisión">
+<div class="screen">
+<div class="screen-top"><span>MY SMART TV</span><span>◉ &nbsp; 18:42</span></div>
+<div class="app-grid" aria-hidden="true">
+<div class="app">▶</div><div class="app">♫</div><div class="app">⌕</div><div class="app">⚙</div>
+<div class="app">▣</div><div class="app">◎</div><div class="app">☼</div><div class="app">＋</div>
+</div>
+<div class="screen-bottom" data-es="Una pantalla de inicio más ordenada empieza con buenos hábitos." data-en="A cleaner home screen starts with better habits.">Una pantalla de inicio más ordenada empieza con buenos hábitos.</div>
+</div><div class="tv-foot"></div>
+</div>
+</section>
+
+<div class="stats">
+<div class="stat"><strong data-es="100 % gratuito" data-en="100% free">100 % gratuito</strong><span data-es="Sin suscripción" data-en="No subscription">Sin suscripción</span></div>
+<div class="stat"><strong data-es="Paso a paso" data-en="Step by step">Paso a paso</strong><span data-es="Para principiantes" data-en="Beginner-friendly">Para principiantes</span></div>
+<div class="stat"><strong data-es="Prioridad: seguridad" data-en="Safety first">Prioridad: seguridad</strong><span data-es="Sin borrados automáticos" data-en="No automatic deletions">Sin borrados automáticos</span></div>
+</div>
+
+<section id="checker">
+<div class="section-head">
+<h2 data-es="Comprueba la compatibilidad" data-en="Check compatibility">Comprueba la compatibilidad</h2>
+<p data-es="Selecciona el sistema y describe tu televisor para obtener orientación general. No se instala nada ni se envían tus datos a un servidor." data-en="Choose your platform and describe your TV to get general guidance. Nothing is installed and your details are not sent to a server.">Selecciona el sistema y describe tu televisor para obtener orientación general. No se instala nada ni se envían tus datos a un servidor.</p>
+</div>
+<div class="panel checker-grid">
+<form id="compatForm">
+<label for="platform" data-es="Sistema del televisor" data-en="TV platform">Sistema del televisor</label>
+<select id="platform" required>
+<option value="android">Android TV</option>
+<option value="google">Google TV</option>
+<option value="fire">Amazon Fire TV</option>
+<option value="other">Otro / No lo sé</option>
+</select>
+<label for="brand" data-es="Marca" data-en="Brand">Marca</label>
+<select id="brand" required>
+<option value="sony">Sony</option><option value="tcl">TCL</option>
+<option value="philips">Philips</option><option value="hisense">Hisense</option>
+<option value="xiaomi">Xiaomi / Mi Box</option><option value="nvidia">NVIDIA Shield</option>
+<option value="amazon">Amazon Fire TV</option><option value="other">Otra / No lo sé</option>
+</select>
+<label for="model" data-es="Modelo (opcional)" data-en="Model (optional)">Modelo (opcional)</label>
+<input id="model" maxlength="80" placeholder="Ej. Bravia, Chromecast, Mi Box">
+<p class="hint" data-es="El modelo solo ayuda a personalizar los consejos; no se consulta ninguna base de datos externa." data-en="The model only helps tailor tips; no external database is queried.">El modelo solo ayuda a personalizar los consejos; no se consulta ninguna base de datos externa.</p>
+<button class="btn primary" type="submit" data-es="Ver recomendaciones" data-en="Show recommendations">Ver recomendaciones</button>
+</form>
+<div>
+<div class="notice" data-es="Importante: los menús y las funciones varían según el modelo y la versión. Antes de desactivar o desinstalar una aplicación, comprueba su función y cómo restaurarla." data-en="Important: menus and features vary by model and software version. Before disabling or uninstalling an app, check its purpose and how to restore it.">Importante: los menús y las funciones varían según el modelo y la versión. Antes de desactivar o desinstalar una aplicación, comprueba su función y cómo restaurarla.</div>
+<div class="result" id="result" aria-live="polite"></div>
+</div>
+</div>
+</section>
+
+<section id="guides">
+<div class="section-head">
+<h2 data-es="Guías sencillas para empezar" data-en="Simple guides to get started">Guías sencillas para empezar</h2>
+<p data-es="Prueba primero los cambios reversibles y utiliza los ajustes oficiales del dispositivo." data-en="Start with reversible changes and use your device's official settings first.">Prueba primero los cambios reversibles y utiliza los ajustes oficiales del dispositivo.</p>
+</div>
+<div class="cards">
+<article class="card">
+<div class="card-icon">🧹</div><h3 data-es="1. Libera espacio" data-en="1. Free up space">1. Libera espacio</h3>
+<p data-es="Revisa qué ocupa memoria y elimina solo lo que reconozcas." data-en="Review storage usage and remove only what you recognize.">Revisa qué ocupa memoria y elimina solo lo que reconozcas.</p>
+<ul>
+<li data-es="Abre Ajustes y busca Almacenamiento." data-en="Open Settings and find Storage.">Abre Ajustes y busca Almacenamiento.</li>
+<li data-es="Borra caché desde las opciones de cada aplicación, si existe." data-en="Clear cache from each app's options, if available.">Borra caché desde las opciones de cada aplicación, si existe.</li>
+<li data-es="Evita restablecer de fábrica como primer paso." data-en="Avoid a factory reset as your first step.">Evita restablecer de fábrica como primer paso.</li>
+</ul>
+</article>
+<article class="card">
+<div class="card-icon">⚙️</div><h3 data-es="2. Revisa las aplicaciones" data-en="2. Review apps">2. Revisa las aplicaciones</h3>
+<p data-es="Identifica las apps que usas y las que el sistema necesita." data-en="Identify apps you use and apps the system needs.">Identifica las apps que usas y las que el sistema necesita.</p>
+<ul>
+<li data-es="Ve a Ajustes → Aplicaciones." data-en="Go to Settings → Apps.">Ve a Ajustes → Aplicaciones.</li>
+<li data-es="Desinstala solo aplicaciones que hayas instalado y no necesites." data-en="Uninstall only apps you installed and no longer need.">Desinstala solo aplicaciones que hayas instalado y no necesites.</li>
+<li data-es="No elimines servicios del sistema al azar." data-en="Do not randomly remove system services.">No elimines servicios del sistema al azar.</li>
+</ul>
+</article>
+<article class="card">
+<div class="card-icon">🚀</div><h3 data-es="3. Mejora la fluidez" data-en="3. Improve responsiveness">3. Mejora la fluidez</h3>
+<p data-es="Empieza por tareas simples que puedas deshacer." data-en="Start with simple changes you can undo.">Empieza por tareas simples que puedas deshacer.</p>
+<ul>
+<li data-es="Reinicia el televisor desde el menú de energía." data-en="Restart the TV from its power menu.">Reinicia el televisor desde el menú de energía.</li>
+<li data-es="Actualiza el sistema desde Ajustes." data-en="Update the system in Settings.">Actualiza el sistema desde Ajustes.</li>
+<li data-es="Reduce las apps abiertas si el dispositivo lo permite." data-en="Reduce background apps if your device allows it.">Reduce las apps abiertas si el dispositivo lo permite.</li>
+</ul>
+</article>
+</div>
+</section>
+
+<section id="safe">
+<div class="section-head">
+<h2 data-es="Optimiza sin correr riesgos" data-en="Optimize without the risks">Optimiza sin correr riesgos</h2>
+<p data-es="Una guía responsable te ayuda a mejorar el televisor sin perder funciones esenciales." data-en="A responsible guide helps improve your TV without losing essential features.">Una guía responsable te ayuda a mejorar el televisor sin perder funciones esenciales.</p>
+</div>
+<div class="steps">
+<div class="step"><h3 data-es="Identifica tu sistema" data-en="Identify your platform">Identifica tu sistema</h3><p data-es="Comprueba la versión en Ajustes → Sistema → Información, aunque la ruta puede variar." data-en="Check Settings → System → About, although menu paths can vary.">Comprueba la versión en Ajustes → Sistema → Información, aunque la ruta puede variar.</p></div>
+<div class="step"><h3 data-es="Haz un cambio cada vez" data-en="Change one thing at a time">Haz un cambio cada vez</h3><p data-es="Comprueba el resultado antes de hacer otro cambio y anota cómo volver atrás." data-en="Check the result before making another change and note how to undo it.">Comprueba el resultado antes de hacer otro cambio y anota cómo volver atrás.</p></div>
+<div class="step"><h3 data-es="Evita herramientas desconocidas" data-en="Avoid unknown tools">Evita herramientas desconocidas</h3><p data-es="No ejecutes comandos ni instales APK de fuentes que no puedas verificar." data-en="Do not run commands or install APKs from sources you cannot verify.">No ejecutes comandos ni instales APK de fuentes que no puedas verificar.</p></div>
+</div>
+</section>
+
+<section id="faq">
+<div class="section-head"><h2 data-es="Preguntas frecuentes" data-en="Frequently asked questions">Preguntas frecuentes</h2></div>
+<details><summary data-es="¿CleanYourTV limpia mi televisor automáticamente?" data-en="Does CleanYourTV clean my TV automatically?">¿CleanYourTV limpia mi televisor automáticamente?</summary><p data-es="No. Esta web ofrece guías y recomendaciones; no se conecta al televisor ni cambia su configuración." data-en="No. This website provides guides and recommendations; it does not connect to your TV or change its settings.">No. Esta web ofrece guías y recomendaciones; no se conecta al televisor ni cambia su configuración.</p></details>
+<details><summary data-es="¿Funciona con todos los televisores inteligentes?" data-en="Does it work with every smart TV?">¿Funciona con todos los televisores inteligentes?</summary><p data-es="Las guías se centran en Android TV y Google TV. Otros sistemas, como Roku, Samsung Tizen o LG webOS, utilizan menús y herramientas diferentes." data-en="Guides focus on Android TV and Google TV. Other systems, such as Roku, Samsung Tizen, or LG webOS, use different menus and tools.">Las guías se centran en Android TV y Google TV. Otros sistemas, como Roku, Samsung Tizen o LG webOS, utilizan menús y herramientas diferentes.</p></details>
+<details><summary data-es="¿Es gratis y guarda mis datos?" data-en="Is it free, and does it store my data?">¿Es gratis y guarda mis datos?</summary><p data-es="Esta versión es gratuita y el comprobador funciona en tu navegador. No envía el modelo introducido a un servidor." data-en="This version is free and the checker runs in your browser. It does not send the model you enter to a server.">Esta versión es gratuita y el comprobador funciona en tu navegador. No envía el modelo introducido a un servidor.</p></details>
+<details><summary data-es="¿Puedo desinstalar aplicaciones preinstaladas?" data-en="Can I uninstall preinstalled apps?">¿Puedo desinstalar aplicaciones preinstaladas?</summary><p data-es="Depende del fabricante y de la aplicación. Desactivar o eliminar componentes del sistema puede romper funciones; sigue documentación específica de tu modelo y conserva una forma de recuperación." data-en="It depends on the manufacturer and app. Disabling or removing system components can break features; follow model-specific documentation and keep a recovery path.">Depende del fabricante y de la aplicación. Desactivar o eliminar componentes del sistema puede romper funciones; sigue documentación específica de tu modelo y conserva una forma de recuperación.</p></details>
+</section>
+</div>
+</main>
+
+<footer>
+<div class="wrap foot">
+<div><a class="brand" href="#top"><span class="logo">C</span><span>CleanYourTV</span></a><p data-es="Guías gratuitas para una experiencia de televisión más ordenada." data-en="Free guides for a cleaner TV experience.">Guías gratuitas para una experiencia de televisión más ordenada.</p></div>
+<div><p>© <span id="year"></span> CleanYourTV</p><p data-es="Proyecto independiente. Android, Android TV y Google TV son marcas de sus respectivos propietarios." data-en="Independent project. Android, Android TV and Google TV are trademarks of their respective owners.">Proyecto independiente. Android, Android TV y Google TV son marcas de sus respectivos propietarios.</p><a href="#top" data-es="Volver arriba ↑" data-en="Back to top ↑">Volver arriba ↑</a></div>
+</div>
+</footer>
+
+<script>
+(function(){
+const langSelect=document.getElementById('language');
+function setLanguage(lang){
+document.documentElement.lang=
